@@ -1,17 +1,18 @@
-# Use the official Apache Flink image
-FROM flink:1.14.4-scala_2.12
+FROM apache/flink:1.18.0-scala_2.12-java11-python3.10
 
-# Install Python and other dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Cài đặt các phụ thuộc
+RUN apt-get update -y && \
+    apt-get install -y python3-pip && \
+    pip install jupyterlab
 
-# Install Jupyter Notebook
-RUN pip3 install jupyter
+# Cổng cho Flink UI và Jupyter
+EXPOSE 8081 8888
 
-# Install PyFlink
-RUN pip3 install apache-flink
+# Copy script khởi động
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Expose the Jupyter Notebook port
-EXPOSE 8888
+# Thư mục làm việc
+WORKDIR /opt/flink/notebooks
 
-# Start Jupyter Notebook
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+ENTRYPOINT ["/start.sh"]

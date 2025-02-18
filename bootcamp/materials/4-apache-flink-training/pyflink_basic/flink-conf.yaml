@@ -1,6 +1,0 @@
-# flink-conf/flink-conf.yaml
-jobmanager.rpc.address: jobmanager
-taskmanager.numberOfTaskSlots: 4
-parallelism.default: 2
-taskmanager.memory.process.size: 4096m
-jobmanager.memory.process.size: 2048m
